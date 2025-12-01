@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reporte de Gastos</title>
+<link rel="stylesheet" type="text/css"
+  href="classpath:/templates/ProjectTemplate.css" />
+</head>
+<body class="page">
+
+  <!-- HEADER -->
+  <header>
+    <table >
+      <tr class="header-info">
+          <td class="noBorderTable">
+            <h1>SKS Enterprise Technologies</h1>
+            <p>Reporte de gastos corporativos</p>
+            <p class="inlineText"><strong>Fecha de emisión:</strong></p>
+            <p class="inlineText" th:text="${actualDate}">actual date</p>
+          </td>
+          <td class="noBorderTable alignRight">
+            <img src="img/logo_sks.png" alt="logo" class="logo" />
+            <h3 th:text="${project.name}">proyect name</h3>
+          </td>
+      </tr>
+    </table>
+  </header>
+  <!-- HEADER -->
+
+  <!-- EMPLOYEE -->
+  <section>
+    <div class="section-title">Información del Empleado</div>
+    <div>
+      <p class="inlineText" ><strong>Nombre:</strong></p>
+      <p class="inlineText" th:text="${user.fullName}">full name</p>
+    </div>
+    <div>
+      <p class="inlineText" ><strong>Puesto:</strong></p>
+      <p class="inlineText" th:text="${user.position}">position</p>
+    </div>
+    <div>
+      <p class="inlineText" ><strong>Departamento:</strong></p>
+      <p class="inlineText" th:text="${user.department}">department</p>
+    </div>
+    <p><strong>Supervisor:</strong> David Spitz</p>
+  </section>
+  <!-- EMPLOYEE -->
+
+  <!-- EXPENSES -->
+  <section>
+    <div class="section-title">Detalle de Gastos</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Factura</th>
+          <th>Descripción</th>
+          <th>Proveedor</th>
+          <th>Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="expense, iter : ${expenses}">
+          <td th:text="${expense.date}"> expense date</td>
+          <td th:text="${expense.bill}"> expense bill</td>
+          <td th:text="${expense.description}"> expense description</td>
+          <td th:text="${expense.supplier}"> expense supplier</td>
+          <td th:text="${expense.amount}"> expense amount</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  <!-- EXPENSES -->
+
+  <!-- TOTALS -->
+  <section class="pageBreak">
+    <div class="section-title">Totales</div>
+    <table class="totales">
+      <tr>
+        <td class="label">Total:</td>
+        <td th:text="${totalExpenses}" class="value"> total </td>
+      </tr>
+      <tr>
+        <td class="label">Adelantado:</td>
+        <td th:text="${totalBudget}" class="value"> total budget</td>
+      </tr>
+      <tr>
+        <td class="label">Restante:</td>
+        <td th:text="${remainingBudget}" class="value"> remaining budget </td>
+      </tr>
+    </table>
+    <!-- TOTALS -->
+  
+    <!-- SIGNATURES -->
+  <div class="signatures">
+    <div class="sign-box">
+      <p>Firma del Empleado</p>
+    </div>
+ 
+    <div class="sign-box">
+      <p>Firma del Supervisor</p>
+    </div>
+  </div>
+  <!-- SIGNATURES -->
+
+  <footer>
+    <p>Uso interno — No se recibirá sin comprobante o justificación aclarada.</p>
+    <p>© 2025 SKS ENTERPRISE TECHNOLOGIES | Sistema de Gestión de Gastos</p>
+    <p>Ver. 0.0.1 | Desarrollado por: Zeferino Hernandez y Jaime Vargas</p>
+  </footer>
+  </section>
+</body>
+</html>
