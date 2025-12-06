@@ -18,8 +18,8 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/target/demo.app.gastos-0.0.2-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/demo.app.gastos-0.1.3-SNAPSHOT.jar app.jar
 
-EXPOSE 8080
+EXPOSE 3000
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

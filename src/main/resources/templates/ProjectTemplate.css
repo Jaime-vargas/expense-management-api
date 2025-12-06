@@ -1,162 +1,160 @@
 @page {
-      size: A4;
-      margin: 2cm;
-      margin-top: 140px;
-      @top-center {
-                content: element(header);
-            }
-    }
+  size: A4;
+  margin: 2cm;
+  margin-top: 140px;
+  @top-center {
+    content: element(header);
+  }
+}
 
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      padding-top:20px;
-      color: #2c3e50;
-      background-color: #fff;
-      font-size: 14px;
-    }
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  padding-top: 20px;
+  color: #2c3e50;
+  background-color: #fff;
+  font-size: 14px;
+}
 
-    p {
-      margin: 4px 0;
-    }
+p {
+  margin: 4px 0;
+}
 
-    .page {
-      width: 100%;
-      max-width: 800px;
-      page-break-after: always;
-      margin: auto;
-     
-    }
+.page {
+  width: 100%;
+  max-width: 800px;
+  page-break-after: always;
+  margin: auto;
+}
 
-    /* === ENCABEZADO === */
-    header {
-      position: running(header);
-      border-bottom: 4px solid #004aad;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
-    }
+/* === ENCABEZADO === */
+header {
+  position: running(header);
+  border-bottom: 4px solid #004aad;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
 
-    .header-info {
-      text-align: left;
-    }
+.header-info {
+  text-align: left;
+}
 
-    .header-info h1 {
-      font-size: 22px;
-      margin-bottom: 4px;
-    }
+.header-info h1 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
 
-    .header-info p {
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
+.header-info p {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
 
-    .logo {
-      height: 60px;
-      width: auto;
-    }
+.logo {
+  height: 60px;
+  width: auto;
+}
 
-    .noBorderTable{
-      border: 0;
-    }
+.noBorderTable {
+  border: 0;
+}
 
-    .inlineText{
-      display:inline;
-    }
-    
-    .alignRight{
-      text-align: right;
-    }
+.inlineText {
+  display: inline;
+}
 
-    .alignLeft{
-      text-align: left;
-    }
-    
-    h1, h2, h3 {
-      margin: 0;
-      color: #004aad;
-    }
-    
-    /* === SECCIONES === */
-    .section-title {
-      background: #e9efff;
-      padding: 8px 12px;
-      font-weight: 600;
-      border-left: 5px solid #004aad;
-      margin-bottom: 12px;
-      color: #004aad;
-      font-size: 16px;
-    }
+.alignRight {
+  text-align: right;
+}
 
+.alignLeft {
+  text-align: left;
+}
 
-    section {
-      margin-bottom: 30px;
-    }
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: #004aad;
+}
 
-    /* === TABLAS === */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
+/* === SECCIONES === */
+.section-title {
+  background: #e9efff;
+  padding: 4px 12px;
+  font-weight: 600;
+  border-left: 5px solid #004aad;
+  margin-bottom: 10px;
+  color: #004aad;
+  font-size: 16px;
+}
 
-    th {
-      background: #e9efff;
-      font-weight: bold;
-      color: #003a91;
-    }
+section {
+  margin-bottom: 30px;
+}
 
-    th, td {
-      border: 1px solid #d9e1f2;
-      padding: 4px;
-      text-align: left;
-    }
+/* === TABLAS === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
 
-    .pageBreak{
-      page-break-inside: "avoid"
-    }
+th {
+  background: #e9efff;
+  font-weight: bold;
+  color: #003a91;
+}
 
-    /* === TOTALES === */
-    .totales {
-      width: 50%;
-      float: right;
-      margin-top: 10px;
-    }
+th,
+td {
+  border: 1px solid #d9e1f2;
+  padding: 2px 4px;
+  text-align: left;
+}
 
-    .totales td {
-      padding: 8px 12px;
-    }
+.pageBreak {
+  page-break-inside: "avoid";
+}
 
-    .totales .label {
-      text-align: right;
-      font-weight: bold;
-      background: #f4f6fa;
-    }
+/* === TOTALES === */
+.totales {
+  width: 50%;
+  float: right;
+  margin-top: 10px;
+}
 
-    .totales .value {
-      text-align: right;
-    }
+.totales td {
+  padding: 6px 12px;
+}
 
-     /* === FIRMA === */
-    .signatures {
-      margin-top: 50px;
-      text-align: center;
-    }
+.totales .label {
+  text-align: right;
+  font-weight: bold;
+  background: #f4f6fa;
+}
 
-    .sign-box {
-      width: 45%;
-      border-top: 1px solid #535353;
-      padding-top: 5px;
-      padding-bottom: 40px;
-      font-size: 13px;
-    }
+.totales .value {
+  text-align: right;
+}
 
-    /* === PIE DE PÁGINA === */
-    footer {
-      border-top: 2px solid #cfcfcf;
-      text-align: center;
-      font-size: 10px;
-      color: #979797;
-      padding-top: 8px;
-    }
+/* === FIRMA === */
+.signatures {
+  margin-top: 40px;
+  text-align: center;
+}
 
-   
-    
+.sign-box {
+  width: 45%;
+  border-top: 1px solid #535353;
+  padding-top: 5px;
+  padding-bottom: 35px;
+  font-size: 13px;
+}
+
+/* === PIE DE PÁGINA === */
+footer {
+  border-top: 2px solid #cfcfcf;
+  text-align: center;
+  font-size: 8px;
+  color: #979797;
+  padding-top: 6px;
+}

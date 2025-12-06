@@ -59,6 +59,7 @@ public class UserEntityService {
         }
 
         UserEntity userEntity = findById(userId);
+        userDTO.setId(userEntity.getId());
 
         if(userRepository.existsByUsernameAndIdNot(userDTO.getUsername(), userEntity.getId())){
             throw new HandleException(409, "Conflict", "Username already exists");
