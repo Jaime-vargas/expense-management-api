@@ -78,6 +78,11 @@ public class SecurityConfiguration  {
             cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
             cfg.setAllowedHeaders(List.of("*"));
             cfg.setAllowCredentials(true);
+            cfg.setExposedHeaders(List.of(
+                    "Content-Disposition",
+                    "X-Total-Count",
+                    "Authorization"
+            ));
             return cfg;
         }));
     }

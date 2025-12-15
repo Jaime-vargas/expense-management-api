@@ -85,6 +85,8 @@ public class DocumentResourceController {
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.setContentDisposition(contentDisposition);
             headers.setContentLength(zipBytes.length);
+            headers.set("Access-Control-Expose-Headers",
+                    "X-Total-Count, Authorization");
 
 
             return ResponseEntity.ok()

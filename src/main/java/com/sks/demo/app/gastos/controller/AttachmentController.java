@@ -23,12 +23,13 @@ public class AttachmentController {
     private final AttachmentService attachmentService;
     private final AttachmentOrchestrator attachmentOrchestrator;
 
+    // --- CONSTRUCTOR ---
     public AttachmentController(AttachmentService attachmentService, AttachmentOrchestrator attachmentOrchestrator) {
         this.attachmentService = attachmentService;
         this.attachmentOrchestrator = attachmentOrchestrator;
     }
 
-    // Endpoints to handle attachments for expenses
+    // --- ENDPOINTS ---
     @GetMapping("/{expenseId}/attachments")
     public ResponseEntity<List<AttachmentDTO>> getAttachmentsByExpenseId(@PathVariable Long expenseId) {
         List<AttachmentDTO> attachments = attachmentOrchestrator.getAttachmentsByExpenseId(expenseId);

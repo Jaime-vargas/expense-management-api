@@ -1,9 +1,13 @@
 package com.sks.demo.app.gastos.service.orchestrators;
 
+import com.sks.demo.app.gastos.Mapper.Mapper;
 import com.sks.demo.app.gastos.dto.ExpenseDTO;
+import com.sks.demo.app.gastos.model.Expense;
+import com.sks.demo.app.gastos.model.Project;
 import com.sks.demo.app.gastos.service.AttachmentService;
 import com.sks.demo.app.gastos.service.ExpenseService;
 import com.sks.demo.app.gastos.service.ProjectService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,53 +18,79 @@ public class ExpenseOrchestrator {
     private final ProjectService projectService;
     private final ExpenseService expenseService;
     private final AttachmentService attachmentService;
+    private final Mapper mapper;
 
-    public ExpenseOrchestrator(ProjectService projectService, ExpenseService expenseService, AttachmentService attachmentService) {
+    // --- CONSTRUCTOR ---
+    public ExpenseOrchestrator(ProjectService projectService, ExpenseService expenseService, AttachmentService attachmentService, Mapper mapper) {
         this.projectService = projectService;
         this.expenseService = expenseService;
         this.attachmentService = attachmentService;
+        this.mapper = mapper;
     }
 
-    //Method to get all expenses and their attachments associated
+    // --- METHODS ---
     public List<ExpenseDTO> getExpensesByProjectIdWithAttachmentsAssociated(Long projectId){
+        // VALIDATIONS
         projectService.findById(projectId);
-
-        List<ExpenseDTO> expensesDTO = expenseService.getExpensesByProjectId(projectId);
+        List<ExpenseDTO> expensesDTO = expenseService.getExpensesByProjectId(projectId).stream().map(mapper::entityToDto).toList();
+        // ADD NUMBER OF ATTACHMENTS TO DTO
         expensesDTO.forEach(expenseDTO -> {
-            Long  attachmentsAdded =  attachmentService.countAttachments(expenseDTO.getId());
-            expenseDTO.setAssociatedFiles(attachmentsAdded);
+            Long attachments = attachmentService.countAttachments(expenseDTO.getId());
+            expenseDTO.setAssociatedFiles(attachments);
         });
         return expensesDTO;
     }
 
-    public ExpenseDTO getExpenseByIdWithAttachmentsAssociated(Long projectId, Long expenseId){
-        ExpenseDTO expenseDTO = expenseService.getExpenseById(projectId, expenseId);
-        Long  attachmentsAdded =  attachmentService.countAttachments(expenseDTO.getId());
-        expenseDTO.setAssociatedFiles(attachmentsAdded);
+    public ExpenseDTO getExpenseByProjectIdWithAttachmentsAssociated(Long projectId, Long expenseId){
+        // VALIDATIONS
+        projectService.findById(projectId);
+        Expense expense = expenseService.getExpenseById(expenseId);
+        ExpenseDTO expenseDTO = mapper.entityToDto(expense);
+        // ADD NUMBER OF ATTACHMENTS TO DTO
+        Long  attachments =  attachmentService.countAttachments(expenseDTO.getId());
+        expenseDTO.setAssociatedFiles(attachments);
         return expenseDTO;
     }
 
-    public ExpenseDTO addExpense(Long projectId, ExpenseDTO expenseDTO){
-        projectService.findById(projectId);
-        expenseDTO = expenseService.addExpense(projectId, expenseDTO);
+    public ExpenseDTO saveExpense(Long projectId, ExpenseDTO expenseDTO){
+        // VALIDATIONS
+        Project project = projectService.findById(projectId);
+
+        Expense expense = mapper.dtoToEntity(expenseDTO);
+        expense.setProject(project);
+        expense = expenseService.saveExpense(expense);
+        expenseDTO = mapper.entityToDto(expense);
+        // ADD NUMBER OF ATTACHMENTS TO DTO
         long  attachmentsAdded =  attachmentService.countAttachments(expenseDTO.getId());
         expenseDTO.setAssociatedFiles(attachmentsAdded);
         return expenseDTO;
     }
 
     public ExpenseDTO updateExpense(Long projectId,Long expenseID, ExpenseDTO expenseDTO){
-        expenseDTO = expenseService.updateExpense(projectId, expenseID, expenseDTO);
+        // VALIDATIONS
+        Project project = projectService.findById(projectId);
+        expenseService.findById(expenseID);
+
+        Expense expense = mapper.dtoToEntity(expenseDTO);
+        expense.setProject(project);
+        expense.setId(expenseID);
+        expense = expenseService.saveExpense(expense);
+        expenseDTO = mapper.entityToDto(expense);
+        // ADD NUMBER OF ATTACHMENTS TO DTO
         long  attachmentsAdded =  attachmentService.countAttachments(expenseDTO.getId());
         expenseDTO.setAssociatedFiles(attachmentsAdded);
         return expenseDTO;
     }
 
-    // Method to delete all attachments associated with an expense before deleting the expense itself
+    // DELETE ALL ATTACHMENTS BEFORE DELETE AN EXPENSE
+    @Transactional
     public void deleteExpenseAndItsFiles(Long projectId, Long expenseId){
-        attachmentService.getAttachmentsByExpenseId(expenseId).forEach(attachment -> {
-            attachmentService.deleteAttachment(expenseId, attachment.getId());
-        });
-        expenseService.deleteExpense(projectId, expenseId);
-    }
+        // VALIDATIONS
+        projectService.findById(projectId);
+        expenseService.findById(expenseId);
 
+        attachmentService.getAttachmentsByExpenseId(expenseId).forEach(
+                attachment -> attachmentService.deleteAttachment(expenseId, attachment.getId()));
+        expenseService.deleteExpense(expenseId);
+    }
 }

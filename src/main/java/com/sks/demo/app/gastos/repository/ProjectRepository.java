@@ -16,7 +16,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @NonNull
     Optional<Project> findById(@NonNull Long id);
 
-    Optional<List<Project>> findByUser_Id(Long userId);
+    List<Project> findByUser_Id(Long userId);
 
 
 }

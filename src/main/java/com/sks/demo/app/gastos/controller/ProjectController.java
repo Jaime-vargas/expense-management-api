@@ -20,30 +20,31 @@ public class ProjectController {
     private final ProjectService projectService;
     private final ProjectOrchestrator projectOrchestrator;
 
+    // --- CONSTRUCTOR ---
     public ProjectController(ProjectService projectService, ProjectOrchestrator projectOrchestrator) {
         this.projectService = projectService;
         this.projectOrchestrator = projectOrchestrator;
     }
 
+    // --- METHODS ---
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<List<ProjectDTO>>getProjects() {
-        List<ProjectDTO> projects = projectService.getProjects();
-        return ResponseEntity.status(HttpStatus.OK).body(projects);
+        List<ProjectDTO> projectDTOList = projectService.getProjects();
+        return ResponseEntity.status(HttpStatus.OK).body(projectDTOList);
     }
-
 
     @GetMapping("{projectId}")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResponseEntity<ProjectDTO>getProjects(@PathVariable Long projectId) {
+    public ResponseEntity<ProjectDTO> getProject(@PathVariable Long projectId) {
         ProjectDTO projectDTO = projectService.getProject(projectId);
         return ResponseEntity.status(HttpStatus.OK).body(projectDTO);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ProjectDTO> addProject(@Valid @RequestBody ProjectDTO projectDTO) {
-        projectDTO = projectOrchestrator.addProject(projectDTO);
+    public ResponseEntity<ProjectDTO> saveProject(@Valid @RequestBody ProjectDTO projectDTO) {
+        projectDTO = projectOrchestrator.saveProject(projectDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(projectDTO);
     }
 

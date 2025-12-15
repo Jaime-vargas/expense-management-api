@@ -21,6 +21,7 @@ public class UserEntityService {
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
 
+    // --- CONSTRUCTOR ---
     public UserEntityService(UserRepository userRepository, UserRoleService userRoleService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
@@ -81,7 +82,7 @@ public class UserEntityService {
     // No transactional methods
     public UserEntity findById(Long userId){
         return userRepository.findById(userId).orElseThrow(
-                () -> new HandleException(400, "Bad Request", "ID does not exist")
+                () -> new HandleException(400, "Bad Request", "User ID does not exist")
         );
     }
 
@@ -131,8 +132,7 @@ public class UserEntityService {
     }
 
     public UserEntity findByUsername(String username) {
-        UserEntity userEntity;
-        return userEntity = userRepository.findByUsername(username).orElseThrow(() ->
+        return userRepository.findByUsername(username).orElseThrow(() ->
                 new HandleException(400, "Bad Request", "Username not found"));
     }
 }

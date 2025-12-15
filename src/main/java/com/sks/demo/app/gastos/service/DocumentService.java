@@ -1,6 +1,7 @@
 package com.sks.demo.app.gastos.service;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import com.sks.demo.app.gastos.Mapper.Mapper;
 import com.sks.demo.app.gastos.dto.ExpenseDTO;
 import com.sks.demo.app.gastos.exeptionsHandler.HandleException;
 import com.sks.demo.app.gastos.model.Attachment;
@@ -16,7 +17,6 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -28,12 +28,14 @@ public class DocumentService {
     private final ProjectService projectService;
     private final ExpenseService expenseService;
     private final AttachmentService attachmentService;
+    private final Mapper mapper;
 
-    public DocumentService(SpringTemplateEngine templateEngine, ProjectService projectService, ExpenseService expenseService, AttachmentService attachmentService) {
+    public DocumentService(SpringTemplateEngine templateEngine, ProjectService projectService, ExpenseService expenseService, AttachmentService attachmentService, Mapper mapper) {
         this.templateEngine = templateEngine;
         this.projectService = projectService;
         this.expenseService = expenseService;
         this.attachmentService = attachmentService;
+        this.mapper = mapper;
     }
 
     public byte[] generatePdf(Long idProject)  {
@@ -41,7 +43,7 @@ public class DocumentService {
         UserEntity userEntity = project.getUser();
         String actualDate = LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM 'de' yyyy", new Locale("es", "MX")));
         BigDecimal totalBudget = project.getBudget();
-        List<ExpenseDTO> expenses = expenseService.getExpensesByProjectId(idProject);
+        List<ExpenseDTO> expenses = expenseService.getExpensesByProjectId(idProject).stream().map(mapper::entityToDto).toList();
 
         BigDecimal totalExpenses = expenses.stream()
                 .map(ExpenseDTO::getAmount)
@@ -78,7 +80,7 @@ public class DocumentService {
 
     public List<File> getAttachmentsAsFiles(Long idProject) {
         projectService.findById(idProject);// Implementation to retrieve attachments as files
-        List<Expense> expenses = expenseService.getExpenses(idProject);
+        List<Expense> expenses = expenseService.getExpensesByProjectId(idProject);
 
         List<Attachment> allAttachments = expenses.stream()
                 .flatMap(expense -> attachmentService.getAttachments(expense.getId()).stream())

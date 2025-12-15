@@ -17,12 +17,12 @@ public class ExpenseController {
 
     private final ExpenseOrchestrator expenseOrchestrator;
 
+    // --- CONSTRUCTOR ---
     public ExpenseController(ExpenseService expenseService, ExpenseOrchestrator expenseOrchestrator) {
         this.expenseOrchestrator = expenseOrchestrator;
     }
 
-    // Endpoints
-
+    // --- METHODS ---
     @GetMapping("/{projectId}/expenses")
     public ResponseEntity<List<ExpenseDTO>> getExpensesByProjectId(@PathVariable Long projectId) {
         List<ExpenseDTO> expensesDTO = expenseOrchestrator.getExpensesByProjectIdWithAttachmentsAssociated(projectId);
@@ -30,14 +30,14 @@ public class ExpenseController {
     }
 
     @GetMapping("/{projectId}/expenses/{expenseId}")
-    public ResponseEntity<ExpenseDTO> getExpenseById(@PathVariable Long projectId, @PathVariable Long expenseId) {
-        ExpenseDTO expenseDTO = expenseOrchestrator.getExpenseByIdWithAttachmentsAssociated(projectId, expenseId);
+    public ResponseEntity<ExpenseDTO> getExpenseByProjectIdAndId(@PathVariable Long projectId, @PathVariable Long expenseId) {
+        ExpenseDTO expenseDTO = expenseOrchestrator.getExpenseByProjectIdWithAttachmentsAssociated(projectId, expenseId);
         return ResponseEntity.status(HttpStatus.OK).body(expenseDTO);
     }
 
     @PostMapping("/{projectId}/expenses")
-    public ResponseEntity<ExpenseDTO> addExpense(@PathVariable Long projectId, @Valid @RequestBody ExpenseDTO expenseDTO) {
-        expenseDTO = expenseOrchestrator.addExpense(projectId, expenseDTO);
+    public ResponseEntity<ExpenseDTO> saveExpense(@PathVariable Long projectId, @Valid @RequestBody ExpenseDTO expenseDTO) {
+        expenseDTO = expenseOrchestrator.saveExpense(projectId, expenseDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(expenseDTO);
     }
 

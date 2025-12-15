@@ -10,14 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-
-    Optional<Expense> findByProject_Id(Long projectId);
-    List<Expense> findByProjectId(Long projectId);
-
-
-    // REVIEWED METHODS
+    List<Expense> findAllByProjectId(Long projectId);
     @NonNull
     Optional<Expense> findById(@NonNull Long expenseId);
-    Optional<Expense> findByIdAndProjectId(Long expenseId, Long projectId);
-
 }
