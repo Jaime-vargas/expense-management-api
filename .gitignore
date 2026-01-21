@@ -32,8 +32,13 @@ build/
 ### VS Code ###
 .vscode/
 
+### Application Properties ###
+/src/main/resources/application-dev.properties
+
 ### Uploads Folder ###
 /uploads
 
 ### Docker ###
 docker-compose.yml
+
+
