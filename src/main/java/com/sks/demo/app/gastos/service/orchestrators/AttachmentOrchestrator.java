@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,14 +32,19 @@ public class AttachmentOrchestrator {
         return attachmentService.getAttachmentsByExpenseId(expenseId);
     }
 
-    public AttachmentDTO addAttachment(Long expenseId, MultipartFile file) {
+    public List<AttachmentDTO> addAttachment(Long expenseId, List<MultipartFile> files) {
+        List<AttachmentDTO> attachmentsDtoList = new ArrayList<>();
         expenseService.findById(expenseId);
         Path savePath = getSavePath(expenseId);
         createDirectoriesIfNotExist(savePath);
-        Path storePath = createFileStorePath(savePath, file.getOriginalFilename());
-        saveFileToPath(file, storePath);
-        Attachment attachment = createAttachmentEntity(expenseId, file, storePath);
-        return attachmentService.addAttachment(attachment);
+        files.forEach(file -> {
+            Path storePath = createFileStorePath(savePath, file.getOriginalFilename());
+            saveFileToPath(file, storePath);
+            Attachment attachment = createAttachmentEntity(expenseId, file, storePath);
+            attachmentsDtoList.add(attachmentService.addAttachment(attachment));
+        });
+
+        return attachmentsDtoList;
     }
 
     public Path getSavePath(Long expenseId) {

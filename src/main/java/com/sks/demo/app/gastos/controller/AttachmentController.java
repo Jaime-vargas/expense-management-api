@@ -49,9 +49,9 @@ public class AttachmentController {
     }
 
     @PostMapping("/{expenseId}/attachments")
-    public ResponseEntity<AttachmentDTO> addAttachment(@PathVariable Long expenseId, @RequestPart("file") MultipartFile file) {
-        AttachmentDTO savedAttachment = attachmentOrchestrator.addAttachment(expenseId, file);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedAttachment);
+    public ResponseEntity<List<AttachmentDTO>> addAttachment(@PathVariable Long expenseId, @RequestPart("file") List<MultipartFile> files) {
+        List<AttachmentDTO> savedAttachmentsList = attachmentOrchestrator.addAttachment(expenseId, files);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedAttachmentsList);
     }
 
     @DeleteMapping("/{expenseId}/attachments/{attachmentId}")

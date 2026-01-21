@@ -1,5 +1,9 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+  lang="es"
+>
   <head>
     <meta charset="UTF-8" />
     <title>Reporte de Gastos</title>
@@ -16,8 +20,12 @@
       <table>
         <tr class="header-info">
           <td class="noBorderTable">
+
+            <!-- HARDCODED DATA -->
             <h1>SKS Enterprise Technologies</h1>
             <p>Reporte de gastos corporativos</p>
+            <!-- HARDCODED DATA -->
+
             <p class="inlineText"><strong>Fecha de emisión:</strong></p>
             <p class="inlineText" th:text="${actualDate}">actual date</p>
           </td>
@@ -68,7 +76,9 @@
             <td th:text="${expense.bill}">expense bill</td>
             <td th:text="${expense.description}">expense description</td>
             <td th:text="${expense.supplier}">expense supplier</td>
-            <td th:text="${expense.amount}">expense amount</td>
+            <td th:text="${#numbers.formatCurrency(expense.amount)}">
+              expense amount
+            </td>
           </tr>
         </tbody>
       </table>
@@ -81,15 +91,24 @@
       <table class="totales">
         <tr>
           <td class="label">Total:</td>
-          <td th:text="${totalExpenses}" class="value">total</td>
+          <td th:text="${#numbers.formatCurrency(totalExpenses)}" class="value">
+            total
+          </td>
         </tr>
         <tr>
           <td class="label">Adelantado:</td>
-          <td th:text="${totalBudget}" class="value">total budget</td>
+          <td th:text="${#numbers.formatCurrency(totalBudget)}" class="value">
+            total budget
+          </td>
         </tr>
         <tr>
           <td class="label">Restante:</td>
-          <td th:text="${remainingBudget}" class="value">remaining budget</td>
+          <td
+            th:text="${#numbers.formatCurrency(remainingBudget)}"
+            class="value"
+          >
+            remaining budget
+          </td>
         </tr>
       </table>
       <!-- TOTALS -->
