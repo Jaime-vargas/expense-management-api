@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.sks</groupId>
 	<artifactId>demo.app.gastos</artifactId>
-	<version>0.1.3-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>demo.app.gastos</name>
 	<description>Proyecto demo de app de gestion de gastos</description>
 	<url/>

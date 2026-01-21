@@ -18,7 +18,7 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /app/target/demo.app.gastos-0.1.3-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/demo.app.gastos-1.0.0.jar app.jar
 
 EXPOSE 3000
 
